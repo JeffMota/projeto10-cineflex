@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Header from './components/Header';
 import MoviesList from './components/MoviesList';
+import SeatSelect from './components/SeatSelect';
 import SessionSelect from './components/SessionSelect';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<MoviesList />}/>
         <Route path='/sessoes/:idFilme' element={<SessionSelect />}/>
+        <Route path='/assentos/:idSessao' element={<SeatSelect />}/>
       </Routes>
     </BrowserRouter>
   );

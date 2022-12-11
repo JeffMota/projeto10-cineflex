@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
+import FooterSession from "./FooterSession"
 
 export default function SessionSelect() {
     const { idFilme } = useParams()
     const [movieData, setMovieData] = useState([])
     const [movieDays, setMovieDays] = useState([])
-
-    let times
 
     useEffect(() => {
 
@@ -16,31 +15,38 @@ export default function SessionSelect() {
         promise.then(res => {
             setMovieData(res.data)
             setMovieDays(res.data.days)
-            console.log(res.data.days)
         })
         promise.catch(err => { console.log(err) })
 
     }, [])
 
     return (
-        <SessionContainer>
-            <p>Selecione o horário</p>
-            <div>
-                {movieDays.map(day => 
-                    <div key={day.id}>
-                        <p>{day.weekday} - {day.date}</p>
-                        <div>
-                            {day.showtimes.map(elm => <button>{elm.name}</button>)}
-                        </div>
-                    </div>
-                )}
-            </div>
-        </SessionContainer>
+        <>
+            <SessionContainer>
+                <p>Selecione o horário</p>
+                <div>
+                    {movieDays.map(day =>
+                        <DayContainer key={day.id}>
+                            <p>{day.weekday} - {day.date}</p>
+                            <div>
+                                {day.showtimes.map(elm =>
+                                    <Link to={`/assentos/${elm.id}`} key={elm.id}>
+                                        <button>{elm.name}</button>
+                                    </Link>
+                                )}
+                            </div>
+                        </DayContainer>
+                    )}
+                </div>
+            </SessionContainer>
+            <FooterSession title={movieData.title} poster={movieData.posterURL} day={false}/>
+        </>
     )
 }
 
 const SessionContainer = styled.div`
     margin-top: 67px;
+    margin-bottom: 150px;
 
     display: flex;
     flex-direction: column;
@@ -65,7 +71,13 @@ const SessionContainer = styled.div`
         flex-direction: column;
         width: 90%;
 
-        background-color: aqua;
     }
+`
 
+const DayContainer = styled.div`
+    
+    > p {
+        font-size: 20px;
+        color: #293845;
+    }
 `
