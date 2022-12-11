@@ -4,6 +4,7 @@ import Header from './components/Header';
 import MoviesList from './components/MoviesList';
 import SeatSelect from './components/SeatSelect';
 import SessionSelect from './components/SessionSelect';
+import Success from './components/Success';
 
 function App() {
   return (
