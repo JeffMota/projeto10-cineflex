@@ -1,20 +1,20 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import FooterSession from "./FooterSession"
 import Success from "./Success"
 
-export default function SeatSelect() {
+export default function SeatSelect({ setSuccessObject }) {
     const [sessionData, setSessionData] = useState([])
     const [selectedIds, setSelectedIds] = useState([])
     const [selectedNames, setSelectedNames] = useState([])
     const [anterior, setAnterior] = useState([])
-    const [sucesso, setSucesso] = useState(false)
-    
+
     const [CPF, setCPF] = useState([])
     const [Name, setName] = useState([])
 
+    const navigate = useNavigate()
 
     const [loaded, setLoaded] = useState(false)
 
@@ -22,7 +22,7 @@ export default function SeatSelect() {
 
 
     function select(seat) {
-        if(seat.isAvailable === false){
+        if (seat.isAvailable === false) {
             alert("Esse assento não está disponível")
             return
         }
@@ -51,26 +51,26 @@ export default function SeatSelect() {
 
     }, [])
 
-    function mask(cpf){
+    function mask(cpf) {
         let aux = cpf
-        if(aux.length === 3 && aux.length > anterior){
+        if (aux.length === 3 && aux.length > anterior) {
             aux += '.'
         }
-        if(aux.length === 7 && aux.length > anterior){
+        if (aux.length === 7 && aux.length > anterior) {
             aux += '.'
         }
-        if(aux.length === 11 && aux.length > anterior){
+        if (aux.length === 11 && aux.length > anterior) {
             aux += '-'
         }
-        
+
         setCPF(aux)
         setAnterior(aux.length)
     }
 
-    function sendRequest(e){
+    function sendRequest(e) {
         e.preventDefault()
 
-        if(selectedIds.length == 0){
+        if (selectedIds.length == 0) {
             alert('Selecione pelo menos um assento')
             return
         }
@@ -82,24 +82,23 @@ export default function SeatSelect() {
             cpf: CPF
         }
 
+        const testObjeto = {
+            assentos: selectedNames,
+            name: Name,
+            cpf: CPF,
+            sessionData: sessionData
+        }
+
+        setSuccessObject(testObjeto)
+
         const promise = axios.post(URL, body)
         promise.then(res => {
-            setSucesso(true)
+            navigate(`/sucesso`)
         })
         promise.catch(err => console.log(err))
     }
 
-    function finish(){
-        setSessionData([])
-        setSelectedIds([])
-        setSelectedNames([])
-        setAnterior([])
-        setSucesso(false)
-    }
-
     return (
-        <>
-        {!sucesso ? 
         <SeatContainer>
             <p>Selecione o(s) assento(s)</p>
 
@@ -110,7 +109,6 @@ export default function SeatSelect() {
                             data-test="seat"
                             onClick={() => select(seat)}
                             key={seat.id}
-                            // disabled={seat.isAvailable ? false : true}
                             available={(selectedIds.includes(seat.id)) ? 'selected' : seat.isAvailable}>
                             {(seat.name.length == 1) ? '0' + seat.name : seat.name}
                         </Seat>
@@ -148,21 +146,21 @@ export default function SeatSelect() {
                     <input
                         data-test="client-name"
                         required
-                        type="text" 
-                        placeholder="Digite o seu nome..." 
+                        type="text"
+                        placeholder="Digite o seu nome..."
                         onChange={e => setName(e.target.value)}
                         value={Name}
-                    />    
+                    />
                 </label>
                 <label>
                     CPF do comprador:
                     <input
                         data-test="client-cpf"
                         required
-                        autoComplete="off" 
-                        maxLength="14" 
-                        type="text" 
-                        placeholder="Digite o CPF..." 
+                        autoComplete="off"
+                        maxLength="14"
+                        type="text"
+                        placeholder="Digite o CPF..."
                         onChange={e => mask(e.target.value)}
                         value={CPF}
                     />
@@ -170,31 +168,10 @@ export default function SeatSelect() {
 
                 <button data-test="book-seat-btn" type="submit">Reservar assento(s)</button>
             </Form>
-        </SeatContainer> :
-        <Success>
-            <p>Pedido feito com sucesso!</p>
-            <div data-test="movie-info">
-                <h2>Filme e sessão</h2>
-                <p>{sessionData.movie.title}</p>
-                <p>{sessionData.day.date} {sessionData.name}</p>
-            </div>
-            <div data-test="seats-info">
-                <h2>Ingressos</h2>
-                {selectedNames.map(elm => <p key={elm}>Assento {elm}</p>)}
-            </div>
-            <div data-test="client-info">
-                <h2>Comprador</h2>
-                <p>Nome: {Name}</p>
-                <p>CPF: {CPF}</p>
-            </div>
-            <Link data-test="go-home-btn" to="/">
-                <button onClick={finish}>Voltar pra Home</button>
-            </Link>
-        </Success>
-        }
-        </>
+        </SeatContainer>
     )
 }
+
 
 const SeatContainer = styled.div`
     margin-top: 67px;

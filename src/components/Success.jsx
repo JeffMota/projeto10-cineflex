@@ -1,9 +1,42 @@
+import { Navigate, useParams } from "react-router-dom"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
-export default function Success(props){
-    return(
+export default function Success(props) {
+
+    const { testObjeto } = useParams()
+    const {successObject} = props
+
+    useEffect(() => {
+        console.log(testObjeto)
+    }, [])
+
+    function finish(){
+
+        console.log()
+    }
+
+    return (
         <SuccessContainer>
-            {props.children}
+            <p>Pedido feito com sucesso!</p>
+            <div data-test="movie-info">
+                <h2>Filme e sessão</h2>
+                <p>{successObject.sessionData.movie.title}</p>
+                <p>{successObject.sessionData.day.date} {successObject.sessionData.name}</p>
+            </div>
+            <div data-test="seats-info">
+                <h2>Ingressos</h2>
+                {successObject.assentos.map(elm => <p key={elm}>Assento {elm}</p>)}
+            </div>
+            <div data-test="client-info">
+                <h2>Comprador</h2>
+                <p>Nome: {successObject.name}</p>
+                <p>CPF: {successObject.cpf}</p>
+            </div>
+            <Link data-test="go-home-btn" to="/">
+                <button onClick={finish}>Voltar pra Home</button>
+            </Link>
         </SuccessContainer>
     )
 }
