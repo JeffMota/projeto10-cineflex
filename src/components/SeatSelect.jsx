@@ -20,10 +20,10 @@ export default function SeatSelect() {
     const { idSessao } = useParams()
 
 
-    function select(id) {
-        let aux = [...selected, id]
-        if (selected.includes(id)) {
-            aux = aux.filter(elm => elm !== id)
+    function select(name) {
+        let aux = [...selected, name]
+        if (selected.includes(name)) {
+            aux = aux.filter(elm => elm !== name)
         }
         setSelected(aux)
     }
@@ -72,6 +72,13 @@ export default function SeatSelect() {
         promise.then(err => console.log(err))
     }
 
+    function finish(){
+        setSessionData([])
+        setSelected([])
+        setAnterior([])
+        setSucesso(false)
+    }
+
     return (
         <>
         {!sucesso ? 
@@ -82,10 +89,10 @@ export default function SeatSelect() {
                 <SeatList>
                     {sessionData.seats.map(seat =>
                         <Seat
-                            onClick={() => select(seat.id)}
+                            onClick={() => select(seat.name)}
                             key={seat.id}
                             disabled={seat.isAvailable ? false : true}
-                            available={(selected.includes(seat.id)) ? 'selected' : seat.isAvailable}>
+                            available={(selected.includes(seat.name)) ? 'selected' : seat.isAvailable}>
                             {(seat.name.length == 1) ? '0' + seat.name : seat.name}
                         </Seat>
                     )}
@@ -145,6 +152,23 @@ export default function SeatSelect() {
         </SeatContainer> :
         <Success>
             <p>Pedido feito com sucesso!</p>
+            <div>
+                <h2>Filme e sessão</h2>
+                <p>{sessionData.movie.title}</p>
+                <p>{sessionData.day.date} {sessionData.name}</p>
+            </div>
+            <div>
+                <h2>Ingressos</h2>
+                {selected.map(elm => <p key={elm}>Assento {elm}</p>)}
+            </div>
+            <div>
+                <h2>Comprador</h2>
+                <p>Nome: {Name}</p>
+                <p>CPF: {CPF}</p>
+            </div>
+            <Link to="/">
+                <button onClick={finish}>Voltar pra Home</button>
+            </Link>
         </Success>
         }
         </>
