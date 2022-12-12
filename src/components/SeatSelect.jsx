@@ -44,6 +44,7 @@ export default function SeatSelect() {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
         promise.then(res => {
             setSessionData(res.data)
+            console.log(res.data)
             setLoaded(true)
         })
         promise.catch(err => console.log(err))
@@ -122,7 +123,7 @@ export default function SeatSelect() {
                 <FooterSession
                     title={sessionData.movie.title}
                     poster={sessionData.movie.posterURL}
-                    day={`${sessionData.day.weekday} - ${sessionData.day.date}`}
+                    day={`${sessionData.day.weekday} - ${sessionData.name}`}
                 />
             }
 
