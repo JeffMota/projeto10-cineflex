@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export default function FooterSession({ title, poster, day }) {
     return (
-        <FooterContainer>
+        <FooterContainer data-test="footer">
             <Poster>
                 <img src={poster} alt={title} />
             </Poster>

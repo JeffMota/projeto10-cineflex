@@ -101,6 +101,7 @@ export default function SeatSelect() {
                 <SeatList>
                     {sessionData.seats.map(seat =>
                         <Seat
+                            data-test="seat"
                             onClick={() => select(seat)}
                             key={seat.id}
                             disabled={seat.isAvailable ? false : true}
@@ -139,6 +140,7 @@ export default function SeatSelect() {
                 <label>
                     Nome do comprador:
                     <input
+                        data-test="client-name"
                         required
                         type="text" 
                         placeholder="Digite o seu nome..." 
@@ -149,6 +151,7 @@ export default function SeatSelect() {
                 <label>
                     CPF do comprador:
                     <input
+                        data-test="client-cpf"
                         required
                         autoComplete="off" 
                         maxLength="14" 
@@ -159,26 +162,26 @@ export default function SeatSelect() {
                     />
                 </label>
 
-                <button type="submit">Reservar assento(s)</button>
+                <button data-test="book-seat-btn" type="submit">Reservar assento(s)</button>
             </Form>
         </SeatContainer> :
         <Success>
             <p>Pedido feito com sucesso!</p>
-            <div>
+            <div data-test="movie-info">
                 <h2>Filme e sessão</h2>
                 <p>{sessionData.movie.title}</p>
                 <p>{sessionData.day.date} {sessionData.name}</p>
             </div>
-            <div>
+            <div data-test="seats-info">
                 <h2>Ingressos</h2>
                 {selectedNames.map(elm => <p key={elm}>Assento {elm}</p>)}
             </div>
-            <div>
+            <div data-test="client-info">
                 <h2>Comprador</h2>
                 <p>Nome: {Name}</p>
                 <p>CPF: {CPF}</p>
             </div>
-            <Link to="/">
+            <Link data-test="go-home-btn" to="/">
                 <button onClick={finish}>Voltar pra Home</button>
             </Link>
         </Success>

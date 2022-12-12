@@ -26,11 +26,11 @@ export default function SessionSelect() {
                 <p>Selecione o horário</p>
                 <div>
                     {movieDays.map(day =>
-                        <DayContainer key={day.id}>
+                        <DayContainer data-test="movie-day" key={day.id}>
                             <p>{day.weekday} - {day.date}</p>
                             <div>
                                 {day.showtimes.map(elm =>
-                                    <Link to={`/assentos/${elm.id}`} key={elm.id}>
+                                    <Link data-test="showtime" to={`/assentos/${elm.id}`} key={elm.id}>
                                         <button>{elm.name}</button>
                                     </Link>
                                 )}

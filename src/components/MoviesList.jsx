@@ -20,7 +20,7 @@ export default function MoviesList() {
             <p>Selecione um Filme</p>
             <div>
                 {movieList.map(movie => 
-                    <Link to={`/sessoes/${movie.id}`} key={movie.id}>
+                    <Link data-test="movie" to={`/sessoes/${movie.id}`} key={movie.id}>
                         <CardMovie ><img src={movie.posterURL}/> </CardMovie>
                     </Link>
                         )}
