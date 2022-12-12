@@ -44,7 +44,7 @@ export default function SeatSelect({ setSuccessObject }) {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
         promise.then(res => {
             setSessionData(res.data)
-            console.log(res.data)
+
             setLoaded(true)
         })
         promise.catch(err => console.log(err))

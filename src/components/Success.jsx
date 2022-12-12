@@ -7,16 +7,7 @@ export default function Success(props) {
 
     const { testObjeto } = useParams()
     const {successObject} = props
-
-    useEffect(() => {
-        console.log(testObjeto)
-    }, [])
-
-    function finish(){
-
-        console.log()
-    }
-
+    
     return (
         <SuccessContainer>
             <p>Pedido feito com sucesso!</p>
@@ -35,7 +26,7 @@ export default function Success(props) {
                 <p>CPF: {successObject.cpf}</p>
             </div>
             <Link data-test="go-home-btn" to="/">
-                <button onClick={finish}>Voltar pra Home</button>
+                <button>Voltar pra Home</button>
             </Link>
         </SuccessContainer>
     )
