@@ -22,6 +22,11 @@ export default function SeatSelect() {
 
 
     function select(seat) {
+        if(seat.isAvailable === false){
+            alert("Esse assento não está disponível")
+            return
+        }
+
         let aux = [...selectedIds, seat.id]
         if (selectedIds.includes(seat.id)) {
             aux = aux.filter(elm => elm !== seat.id)
@@ -104,7 +109,7 @@ export default function SeatSelect() {
                             data-test="seat"
                             onClick={() => select(seat)}
                             key={seat.id}
-                            disabled={seat.isAvailable ? false : true}
+                            // disabled={seat.isAvailable ? false : true}
                             available={(selectedIds.includes(seat.id)) ? 'selected' : seat.isAvailable}>
                             {(seat.name.length == 1) ? '0' + seat.name : seat.name}
                         </Seat>
