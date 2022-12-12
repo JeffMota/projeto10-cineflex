@@ -7,7 +7,8 @@ import Success from "./Success"
 
 export default function SeatSelect() {
     const [sessionData, setSessionData] = useState([])
-    const [selected, setSelected] = useState([])
+    const [selectedIds, setSelectedIds] = useState([])
+    const [selectedNames, setSelectedNames] = useState([])
     const [anterior, setAnterior] = useState([])
     const [sucesso, setSucesso] = useState(false)
     
@@ -20,12 +21,17 @@ export default function SeatSelect() {
     const { idSessao } = useParams()
 
 
-    function select(name) {
-        let aux = [...selected, name]
-        if (selected.includes(name)) {
-            aux = aux.filter(elm => elm !== name)
+    function select(seat) {
+        let aux = [...selectedIds, seat.id]
+        if (selectedIds.includes(seat.id)) {
+            aux = aux.filter(elm => elm !== seat.id)
         }
-        setSelected(aux)
+        setSelectedIds(aux)
+        aux = [...selectedNames, seat.name]
+        if (selectedNames.includes(seat.name)) {
+            aux = aux.filter(elm => elm !== seat.name)
+        }
+        setSelectedNames(aux)
     }
 
     useEffect(() => {
@@ -58,9 +64,14 @@ export default function SeatSelect() {
     function sendRequest(e){
         e.preventDefault()
 
+        if(selectedIds.length == 0){
+            alert('Selecione pelo menos um assento')
+            return
+        }
+
         const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many'
         const body = {
-            ids: selected,
+            ids: selectedIds,
             name: Name,
             cpf: CPF
         }
@@ -69,12 +80,13 @@ export default function SeatSelect() {
         promise.then(res => {
             setSucesso(true)
         })
-        promise.then(err => console.log(err))
+        promise.catch(err => console.log(err))
     }
 
     function finish(){
         setSessionData([])
-        setSelected([])
+        setSelectedIds([])
+        setSelectedNames([])
         setAnterior([])
         setSucesso(false)
     }
@@ -89,10 +101,10 @@ export default function SeatSelect() {
                 <SeatList>
                     {sessionData.seats.map(seat =>
                         <Seat
-                            onClick={() => select(seat.name)}
+                            onClick={() => select(seat)}
                             key={seat.id}
                             disabled={seat.isAvailable ? false : true}
-                            available={(selected.includes(seat.name)) ? 'selected' : seat.isAvailable}>
+                            available={(selectedIds.includes(seat.id)) ? 'selected' : seat.isAvailable}>
                             {(seat.name.length == 1) ? '0' + seat.name : seat.name}
                         </Seat>
                     )}
@@ -159,7 +171,7 @@ export default function SeatSelect() {
             </div>
             <div>
                 <h2>Ingressos</h2>
-                {selected.map(elm => <p key={elm}>Assento {elm}</p>)}
+                {selectedNames.map(elm => <p key={elm}>Assento {elm}</p>)}
             </div>
             <div>
                 <h2>Comprador</h2>

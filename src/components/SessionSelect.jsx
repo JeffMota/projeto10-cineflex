@@ -80,4 +80,33 @@ const DayContainer = styled.div`
         font-size: 20px;
         color: #293845;
     }
+
+    > div{
+        display: flex;
+
+        width: 80%;
+        > a {
+            display: flex;
+            width: 83px;
+            height: 43px;
+
+            margin-right: 20px;
+
+            text-decoration: none;
+
+            > button{
+                width: 100%;
+                height: 100%;
+
+                background-color: #E8833A;
+
+                color: white;
+
+                border: none;
+                border-radius: 5px;
+
+                font-size: 16px;
+            }
+        }
+    }
 `
