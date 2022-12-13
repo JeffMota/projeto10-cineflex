@@ -9,14 +9,16 @@ import Success from './components/Success';
 
 function App() {
   const [successObject, setSuccessObject] = useState([])
+  const [back, setBack] = useState(true)
+  const [id, setId] = useState([])
 
   return (
     <BrowserRouter >
-      <Header />
+      <Header back={back}/>
       <Routes>
-        <Route path='/' element={<MoviesList />}/>
-        <Route path='/sessoes/:idFilme' element={<SessionSelect />}/>
-        <Route path='/assentos/:idSessao' element={<SeatSelect setSuccessObject={setSuccessObject}/>}/>
+        <Route path='/' element={<MoviesList setBack={setBack}/>}/>
+        <Route path='/sessoes/:idFilme' element={<SessionSelect setBack={setBack} setId={setId}/>}/>
+        <Route path='/assentos/:idSessao' element={<SeatSelect setSuccessObject={setSuccessObject} setBack={setBack} idAnt={id}/>}/>
         <Route path='/sucesso' element={<Success successObject={successObject}/>}/>
       </Routes>
     </BrowserRouter>

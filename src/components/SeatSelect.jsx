@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import FooterSession from "./FooterSession"
-import Success from "./Success"
+import loading from '../assets/img/Double Ring.gif'
 
-export default function SeatSelect({ setSuccessObject }) {
+export default function SeatSelect({ setSuccessObject, setBack, idAnt }) {
     const [sessionData, setSessionData] = useState([])
     const [selectedIds, setSelectedIds] = useState([])
     const [selectedNames, setSelectedNames] = useState([])
@@ -44,12 +44,20 @@ export default function SeatSelect({ setSuccessObject }) {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
         promise.then(res => {
             setSessionData(res.data)
-
             setLoaded(true)
         })
         promise.catch(err => console.log(err))
+        setBack(`/sessoes/${idAnt}`)
 
     }, [])
+
+    if(sessionData.length === 0){
+        return(
+            <LoadingContainer >
+                <img src={loading}></img>
+            </LoadingContainer>
+        )
+    }
 
     function mask(cpf) {
         let aux = cpf
@@ -278,4 +286,13 @@ const Form = styled.form`
         color: #ffff;
         font-size: 18px;
     }
+`
+const LoadingContainer = styled.div`
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+
 `

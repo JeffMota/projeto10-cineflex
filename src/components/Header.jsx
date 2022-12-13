@@ -1,9 +1,23 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import backBtn from "../assets/img/back.png"
 
-export default function Header() {
+export default function Header({back}) {
+
+    const navigate = useNavigate()
+
+    function goBack(){
+        navigate(back)
+    }
+
     return (
         <>
             <HeaderContainer>
+                {back && 
+                    <BackContainer onClick={goBack}>
+                        <img src={backBtn}></img>
+                    </BackContainer>
+                }
                 CINEFLIX
             </HeaderContainer>
         </>
@@ -25,4 +39,18 @@ const HeaderContainer = styled.div`
     width: 100%;
     height: 67px;
     background-color: #C3CFD9;
+    
+`
+
+const BackContainer = styled.div`
+    width: 50px;
+    height: 50px;
+
+    left: 20px;
+    
+    position: fixed;
+
+    > img{
+        width: 100%;
+    }
 `

@@ -3,8 +3,9 @@ import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
 import FooterSession from "./FooterSession"
+import loading from '../assets/img/Double Ring.gif'
 
-export default function SessionSelect() {
+export default function SessionSelect({setBack, setId}) {
     const { idFilme } = useParams()
     const [movieData, setMovieData] = useState([])
     const [movieDays, setMovieDays] = useState([])
@@ -17,8 +18,18 @@ export default function SessionSelect() {
             setMovieDays(res.data.days)
         })
         promise.catch(err => { console.log(err) })
+        setBack('/')
+        setId(idFilme)
 
     }, [])
+
+    if(movieDays.length === 0){
+        return(
+            <LoadingContainer >
+                <img src={loading}></img>
+            </LoadingContainer>
+        )
+    }
 
     return (
         <>
@@ -109,4 +120,14 @@ const DayContainer = styled.div`
             }
         }
     }
+`
+
+const LoadingContainer = styled.div`
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+
 `

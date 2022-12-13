@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Link } from "react-router-dom"
 import loading from '../assets/img/Double Ring.gif'
 
-export default function MoviesList() {
+export default function MoviesList({setBack}) {
     const [movieList, setMovieList] = useState([])
 
     useEffect(() => {
@@ -13,6 +13,8 @@ export default function MoviesList() {
         const promise = axios.get(url)
         promise.then(res => {setMovieList(res.data)})
         promise.catch(err => {console.log(err)})
+
+        setBack(false)
 
     }, [])
 
