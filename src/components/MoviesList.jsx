@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import axios from 'axios'
 import { Link } from "react-router-dom"
+import loading from '../assets/img/Double Ring.gif'
 
 export default function MoviesList() {
     const [movieList, setMovieList] = useState([])
@@ -14,6 +15,14 @@ export default function MoviesList() {
         promise.catch(err => {console.log(err)})
 
     }, [])
+
+    if(movieList.length === 0){
+        return(
+            <LoadingContainer >
+                <img src={loading}></img>
+            </LoadingContainer>
+        )
+    }
 
     return (
         <MoviesContainer>
@@ -76,4 +85,14 @@ const CardMovie = styled.div`
     > img {
         width: 100%;
     }
+`
+
+const LoadingContainer = styled.div`
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+
 `
