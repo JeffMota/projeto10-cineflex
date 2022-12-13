@@ -14,7 +14,7 @@ export default function Header({back}) {
         <>
             <HeaderContainer>
                 {back && 
-                    <BackContainer onClick={goBack}>
+                    <BackContainer data-test="go-home-header-btn" onClick={goBack}>
                         <img src={backBtn}></img>
                     </BackContainer>
                 }
