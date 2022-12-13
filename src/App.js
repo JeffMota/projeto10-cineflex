@@ -19,7 +19,7 @@ function App() {
         <Route path='/' element={<MoviesList setBack={setBack}/>}/>
         <Route path='/sessoes/:idFilme' element={<SessionSelect setBack={setBack} setId={setId}/>}/>
         <Route path='/assentos/:idSessao' element={<SeatSelect setSuccessObject={setSuccessObject} setBack={setBack} idAnt={id}/>}/>
-        <Route path='/sucesso' element={<Success successObject={successObject}/>}/>
+        <Route path='/sucesso' element={<Success successObject={successObject} setBack={setBack}/>}/>
       </Routes>
     </BrowserRouter>
   );

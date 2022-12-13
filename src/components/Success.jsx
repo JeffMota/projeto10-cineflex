@@ -6,7 +6,11 @@ import { useEffect } from "react"
 export default function Success(props) {
 
     const { testObjeto } = useParams()
-    const {successObject} = props
+    const {successObject, setBack} = props
+
+    useEffect(()=>{
+        setBack(false)
+    },[])
     
     return (
         <SuccessContainer>
